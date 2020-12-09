@@ -5,7 +5,10 @@ import {
 
 const App = () => {
   return (
-    <Text style={{textAlign: 'center'}}>Proyecto Citas</Text>
+    <View>
+      <Text style={{ textAlign: 'center' }}>Proyecto Citas</Text>
+      <Text>Testing...</Text>
+    </View>
   );
 };
 
