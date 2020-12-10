@@ -3,9 +3,11 @@ import {
   Text,
   View,
   StyleSheet,
-  FlatList
+  FlatList,
+  ScrollView
 } from 'react-native';
-import Appointment from './src/components/Appointment/Appointment'
+import Appointment from './src/components/Appointment/Appointment';
+import Form from './src/components/Form/Form';
 
 
 const App = () => {
@@ -13,7 +15,7 @@ const App = () => {
     { id: '1', patient: 'Hooks', owner: 'React', symptoms: 'No habla.' },
     { id: '2', patient: 'Redux', owner: 'React', symptoms: 'No escucha' },
   ]);
-  const deletePatient= (id) => {
+  const deletePatient = (id) => {
     setAppointment((remainAppointments) => {
       return (remainAppointments.filter(item => item.id !== id))
     })
@@ -21,14 +23,16 @@ const App = () => {
   return (
     <View style={style.container}>
       <Text style={style.headline}>Appointment Manager</Text>
-
-      <Text style={style.headline}>{ appointments.length > 0 ? 'Your Appointments' : 'There are no appointments, add one:' }</Text>
-      <FlatList
-        data={appointments}
-        renderItem={({ item }) => <Appointment item={item} deletePatient={deletePatient} />}
-        keyExtractor={item => item.id}
-      />
-    </View>
+      <Form />
+      <Text style={style.headline}>{appointments.length > 0 ? 'Your Appointments' : 'There are no appointments, add one:'}</Text>
+      <View style={appointments.length > 0 && style.appointmentContainer}>
+        <FlatList
+          data={appointments}
+          renderItem={({ item, index }) => <Appointment appointmentNumber={index} item={item} deletePatient={deletePatient} />}
+          keyExtractor={item => item.id}
+        />
+      </View>
+    </View >
   );
 };
 
@@ -43,6 +47,20 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     color: '#f1f6f9',
     margin: 20
+  },
+  appointmentContainer: {
+    flex: 1,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    backgroundColor: '#f1f6f9',
+    marginHorizontal: '1.5%'
+  },
+  zeroAppointmentsText: {
+    textAlign: 'center',
+    fontSize: 20,
+    padding: 50,
+    fontWeight: 'bold',
+    color: 'gray'
   }
 });
 

@@ -8,7 +8,7 @@ import {
 
 
 
-const Appointment = ({ item, deletePatient}) => {
+const Appointment = ({ appointmentNumber, item, deletePatient }) => {
 
     function deleteFunction(id) {
         deletePatient(id);
@@ -20,14 +20,14 @@ const Appointment = ({ item, deletePatient}) => {
                 <Text style={styles.text}>{item.patient}</Text>
             </View>
             <View>
-                <Text style={styles.label}>Propietario:</Text>
+                <Text style={styles.label}>Dueño:</Text>
                 <Text style={styles.text}>{item.owner}</Text>
             </View>
             <View>
-                <Text style={styles.label}>Sintoma:</Text>
+                <Text style={styles.label}>Sintomas:</Text>
                 <Text style={styles.text}>{item.symptoms}</Text>
             </View>
-            <TouchableOpacity onPress={() => deleteFunction(item.id)}>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => deleteFunction(item.id)}>
                 <Text style={styles.deleteButton}>Eliminar &times;</Text>
             </TouchableOpacity>
         </View>
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderWidth: 1,
         borderBottomColor: '#e1e1e1',
-        backgroundColor: '#fff'
     },
     label: {
         fontSize: 20,
@@ -52,15 +51,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     deleteButton: {
-        marginVertical: 20,
-        marginHorizontal: 120,
-        paddingVertical: 10,
         fontSize: 20,
+        paddingVertical: 10,
         fontWeight: 'bold',
         color: '#fff',
         backgroundColor: 'red',
         textAlign: 'center',
-        borderRadius: 30
+        borderRadius: 10
+    },
+    buttonContainer: {
+        marginHorizontal: '30%',
+        marginVertical: '2.5%'
     }
 })
 export default Appointment;
