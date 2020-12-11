@@ -10,6 +10,9 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const Form = () => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+    const [dateAppointment, setDateAppointment] = useState('');
+    const [timeAppointment, setTimeAppointment] = useState('');
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -19,9 +22,24 @@ const Form = () => {
         setDatePickerVisibility(false);
     };
 
-    const handleConfirm = (date) => {
-        console.warn("A date has been picked: ", date);
+    const confirmDate = (date) => {
+        setDateAppointment(date.toLocaleDateString());
         hideDatePicker();
+    };
+
+    // HORA
+    const showTimePicker = () => {
+        setTimePickerVisibility(true);
+    };
+
+    const hideTimePicker = () => {
+        setTimePickerVisibility(false);
+    };
+
+    const confirmTime = (time) => {
+        const options = {hour: 'numeric', minute:'numeric'}
+        setTimeAppointment(time.toLocaleTimeString(options))
+        hideTimePicker();
     };
     return (
         <View style={styles.formContainer}>
@@ -40,13 +58,27 @@ const Form = () => {
                 />
             </View>
             <View>
-                <Button title="Date" onPress={showDatePicker} />
+                <Text style={styles.label}>Fecha:</Text>
+                <Button title="Set a Date" onPress={showDatePicker} />
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
                     mode="date"
-                    onConfirm={handleConfirm}
+                    onConfirm={confirmDate}
                     onCancel={hideDatePicker}
                 />
+                <Text>{dateAppointment}</Text>
+            </View>
+            <View>
+                <Text style={styles.label}>Hora:</Text>
+                <Button title="Set a Time" onPress={showTimePicker} />
+                <DateTimePickerModal
+                    isVisible={isTimePickerVisible}
+                    mode="time"
+                    onConfirm={confirmTime}
+                    onCancel={hideTimePicker}
+                    is24Hour
+                />
+                <Text>{timeAppointment}</Text>
             </View>
             <View>
                 <Text style={styles.label}>Sintomas:</Text>
