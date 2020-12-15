@@ -37,10 +37,11 @@ const Appointment = ({ appointmentNumber, item, deletePatient }) => {
 
 const styles = StyleSheet.create({
     item: {
-        paddingTop: 20,
+        paddingVertical: 20,
         paddingHorizontal: 10,
-        borderWidth: 1,
-        borderBottomColor: '#e1e1e1',
+        borderBottomWidth: 1,
+        borderBottomColor: '#14274e',
+        borderRadius: 10
     },
     label: {
         fontSize: 20,
@@ -57,11 +58,11 @@ const styles = StyleSheet.create({
         color: '#fff',
         backgroundColor: 'red',
         textAlign: 'center',
-        borderRadius: 10
+        borderRadius: 10,
     },
     buttonContainer: {
         marginHorizontal: '30%',
-        marginVertical: '2.5%'
+        marginVertical: '5%'
     }
 })
 export default Appointment;

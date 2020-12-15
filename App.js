@@ -12,8 +12,7 @@ import Form from './src/components/Form/Form';
 
 const App = () => {
   const [appointments, setAppointment] = useState([
-    { id: '1', patient: 'Hooks', owner: 'React', symptoms: 'No habla.' },
-    { id: '2', patient: 'Redux', owner: 'React', symptoms: 'No escucha' },
+    { id: '1', patient: 'Hooks', owner: 'React', symptoms: 'No habla.', cellphone: '2235062334' },
   ]);
   const deletePatient = (id) => {
     setAppointment((remainAppointments) => {

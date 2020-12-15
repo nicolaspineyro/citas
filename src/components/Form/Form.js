@@ -4,15 +4,24 @@ import {
     View,
     StyleSheet,
     TextInput,
-    Button
+    Button,
+    TouchableOpacity,
+    ScrollView,
+    Alert
 } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const Form = () => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+
+    const [patient, setPatient] = useState('')
+    const [owner, setOwner] = useState('')
+    const [cellphone, setCellphone] = useState('')
     const [dateAppointment, setDateAppointment] = useState('');
     const [timeAppointment, setTimeAppointment] = useState('');
+    const [symptoms, setSymptoms] = useState('')
+
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -37,23 +46,44 @@ const Form = () => {
     };
 
     const confirmTime = (time) => {
-        const options = {hour: 'numeric', minute:'numeric'}
-        setTimeAppointment(time.toLocaleTimeString(options))
+        setTimeAppointment(time.toLocaleTimeString());
         hideTimePicker();
     };
+
+    const handleSubmit = () => {
+        if (patient.trim() === '' ||
+            cellphone.trim() === '' ||
+            owner.trim() === '' ||
+            dateAppointment.trim() === '' ||
+            timeAppointment.trim() === '' ||
+            symptoms.trim() === '') {
+            mostrarAlerta();
+            return;
+        }
+    }
+    const mostrarAlerta = () => {
+        Alert.alert('Error', 'Todos los campos son obligatorios', [{ text: 'OK' }]);
+    }
     return (
-        <View style={styles.formContainer}>
+        <ScrollView style={styles.formContainer}>
             <View>
                 <Text style={styles.label}>Paciente:</Text>
                 <TextInput
-                    onChangeText={(text) => console.log(text)}
+                    onChangeText={(text) => setPatient(text)}
+                    style={styles.input}
+                />
+            </View>
+            <View>
+                <Text style={styles.label}>Telefono:</Text>
+                <TextInput
+                    onChangeText={(text) => setCellphone(text)}
                     style={styles.input}
                 />
             </View>
             <View>
                 <Text style={styles.label}>Dueño:</Text>
                 <TextInput
-                    onChangeText={(text) => console.log(text)}
+                    onChangeText={(text) => setOwner(text)}
                     style={styles.input}
                 />
             </View>
@@ -66,7 +96,7 @@ const Form = () => {
                     onConfirm={confirmDate}
                     onCancel={hideDatePicker}
                 />
-                <Text>{dateAppointment}</Text>
+                <Text style={[styles.label, styles.time]}>{dateAppointment}</Text>
             </View>
             <View>
                 <Text style={styles.label}>Hora:</Text>
@@ -78,17 +108,20 @@ const Form = () => {
                     onCancel={hideTimePicker}
                     is24Hour
                 />
-                <Text>{timeAppointment}</Text>
+                <Text style={[styles.label, styles.time]}>{timeAppointment}</Text>
             </View>
             <View>
                 <Text style={styles.label}>Sintomas:</Text>
                 <TextInput
                     multiline
-                    onChangeText={(text) => console.log(text)}
+                    onChangeText={(text) => setSymptoms(text)}
                     style={styles.input}
                 />
             </View>
-        </View>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => handleSubmit()}>
+                <Text style={styles.SubmitButton}>Submit</Text>
+            </TouchableOpacity>
+        </ScrollView>
     );
 };
 
@@ -110,6 +143,23 @@ const styles = StyleSheet.create({
         backgroundColor: '#f1f6f9',
         padding: 10,
         borderRadius: 10
+    },
+    time: {
+        textAlign: 'center',
+        margin: "2%"
+    },
+    SubmitButton: {
+        fontSize: 20,
+        paddingVertical: 10,
+        fontWeight: 'bold',
+        color: '#f1f6f9',
+        backgroundColor: '#14289e',
+        textAlign: 'center',
+        borderRadius: 10
+    },
+    buttonContainer: {
+        marginHorizontal: '30%',
+        marginVertical: '5%'
     }
 })
 export default Form;
