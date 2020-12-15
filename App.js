@@ -4,38 +4,55 @@ import {
   View,
   StyleSheet,
   FlatList,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import Appointment from './src/components/Appointment/Appointment';
 import Form from './src/components/Form/Form';
 
 
 const App = () => {
-  const [appointments, setAppointment] = useState([
-    { id: '1', patient: 'Hooks', owner: 'React', symptoms: 'No habla.', cellphone: '2235062334' },
-  ]);
+  const [appointments, setAppointment] = useState([]);
   const deletePatient = (id) => {
     setAppointment((remainAppointments) => {
       return (remainAppointments.filter(item => item.id !== id))
     })
   }
+  const [showForm, setShowForm] = useState(false)
+
+  const handleShowForm = () => {
+    setShowForm(!showForm)
+  }
   return (
-    <View style={style.container}>
-      <Text style={style.headline}>Appointment Manager</Text>
-      <Form />
-      <Text style={style.headline}>{appointments.length > 0 ? 'Your Appointments' : 'There are no appointments, add one:'}</Text>
-      <View style={appointments.length > 0 && style.appointmentContainer}>
-        <FlatList
-          data={appointments}
-          renderItem={({ item, index }) => <Appointment appointmentNumber={index} item={item} deletePatient={deletePatient} />}
-          keyExtractor={item => item.id}
-        />
+    <View style={styles.container}>
+      <Text style={styles.headline}>Appointment Manager</Text>
+      <TouchableOpacity style={styles.buttonContainer} onPress={() => handleShowForm()}>
+        <Text style={styles.showFormButton}>{showForm ? 'Show Appointments' : 'Add New Appointment'}</Text>
+      </TouchableOpacity>
+      <View style={styles.appointmentContainer}>
+        {showForm ? (
+          <Form
+            appointments={appointments}
+            setAppointment={setAppointment}
+            handleShowForm={handleShowForm}
+          />
+        ) :
+          <>
+            <Text style={styles.headline}>{appointments.length > 0 ? 'Your Appointments' : 'There are no appointments, add one with the upper button.'}</Text>
+            <FlatList
+              style={styles.appointmentList}
+              data={appointments}
+              renderItem={({ item, index }) => <Appointment appointmentNumber={index} item={item} deletePatient={deletePatient} />}
+              keyExtractor={item => item.id}
+            />
+          </>
+        }
       </View>
     </View >
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#14274e'
@@ -45,21 +62,25 @@ const style = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#f1f6f9',
-    margin: 20
+    marginVertical: '2.5%'
   },
   appointmentContainer: {
     flex: 1,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    backgroundColor: '#f1f6f9',
-    marginHorizontal: '1.5%'
+    marginHorizontal: '2.5%',
   },
-  zeroAppointmentsText: {
-    textAlign: 'center',
+  appointmentList: {
+    flex: 1,
+  },
+  showFormButton: {
     fontSize: 20,
-    padding: 50,
+    paddingVertical: 10,
     fontWeight: 'bold',
-    color: 'gray'
+    color: '#14274e',
+    backgroundColor: '#f1f6f9',
+    textAlign: 'center'
+  },
+  buttonContainer: {
+    marginBottom: '3%'
   }
 });
 

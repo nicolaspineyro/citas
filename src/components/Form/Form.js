@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const Form = () => {
+const Form = ({ appointments, setAppointment, handleShowForm }) => {
+
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
@@ -22,6 +23,7 @@ const Form = () => {
     const [timeAppointment, setTimeAppointment] = useState('');
     const [symptoms, setSymptoms] = useState('')
 
+    const shortid = require('shortid')
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -60,6 +62,13 @@ const Form = () => {
             mostrarAlerta();
             return;
         }
+
+        const appointment = { patient, cellphone, owner, dateAppointment, timeAppointment, symptoms };
+
+        appointment.id = shortid.generate()
+        const newAppointments = [...appointments, appointment];
+        setAppointment(newAppointments)
+        handleShowForm();
     }
     const mostrarAlerta = () => {
         Alert.alert('Error', 'Todos los campos son obligatorios', [{ text: 'OK' }]);
@@ -67,28 +76,29 @@ const Form = () => {
     return (
         <ScrollView style={styles.formContainer}>
             <View>
-                <Text style={styles.label}>Paciente:</Text>
+                <Text style={styles.label}>Patient:</Text>
                 <TextInput
                     onChangeText={(text) => setPatient(text)}
                     style={styles.input}
                 />
             </View>
             <View>
-                <Text style={styles.label}>Telefono:</Text>
+                <Text style={styles.label}>CellPhone:</Text>
                 <TextInput
+                    keyboardType={'numeric'}
                     onChangeText={(text) => setCellphone(text)}
                     style={styles.input}
                 />
             </View>
             <View>
-                <Text style={styles.label}>Dueño:</Text>
+                <Text style={styles.label}>Owner:</Text>
                 <TextInput
                     onChangeText={(text) => setOwner(text)}
                     style={styles.input}
                 />
             </View>
             <View>
-                <Text style={styles.label}>Fecha:</Text>
+                <Text style={styles.label}>Date:</Text>
                 <Button title="Set a Date" onPress={showDatePicker} />
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
@@ -99,7 +109,7 @@ const Form = () => {
                 <Text style={[styles.label, styles.time]}>{dateAppointment}</Text>
             </View>
             <View>
-                <Text style={styles.label}>Hora:</Text>
+                <Text style={styles.label}>Time:</Text>
                 <Button title="Set a Time" onPress={showTimePicker} />
                 <DateTimePickerModal
                     isVisible={isTimePickerVisible}
@@ -111,7 +121,7 @@ const Form = () => {
                 <Text style={[styles.label, styles.time]}>{timeAppointment}</Text>
             </View>
             <View>
-                <Text style={styles.label}>Sintomas:</Text>
+                <Text style={styles.label}>Symptoms:</Text>
                 <TextInput
                     multiline
                     onChangeText={(text) => setSymptoms(text)}
@@ -119,7 +129,7 @@ const Form = () => {
                 />
             </View>
             <TouchableOpacity style={styles.buttonContainer} onPress={() => handleSubmit()}>
-                <Text style={styles.SubmitButton}>Submit</Text>
+                <Text style={styles.SubmitButton}>New Appointment</Text>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -139,10 +149,10 @@ const styles = StyleSheet.create({
         color: '#14274e',
     },
     formContainer: {
-        margin: '2.5%',
         backgroundColor: '#f1f6f9',
         padding: 10,
-        borderRadius: 10
+        borderRadius: 10,
+        marginBottom: '2%'
     },
     time: {
         textAlign: 'center',

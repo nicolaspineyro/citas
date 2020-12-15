@@ -16,19 +16,31 @@ const Appointment = ({ appointmentNumber, item, deletePatient }) => {
     return (
         <View style={styles.item}>
             <View>
-                <Text style={styles.label}>Paciente:</Text>
+                <Text style={styles.label}>Patient:</Text>
                 <Text style={styles.text}>{item.patient}</Text>
             </View>
             <View>
-                <Text style={styles.label}>Dueño:</Text>
+                <Text style={styles.label}>Owner:</Text>
                 <Text style={styles.text}>{item.owner}</Text>
             </View>
             <View>
-                <Text style={styles.label}>Sintomas:</Text>
+                <Text style={styles.label}>CellPhone:</Text>
+                <Text style={styles.text}>{item.cellphone}</Text>
+            </View>
+            <View>
+                <Text style={styles.label}>Date:</Text>
+                <Text style={styles.text}>{item.dateAppointment}</Text>
+            </View>
+            <View>
+                <Text style={styles.label}>Time:</Text>
+                <Text style={styles.text}>{item.timeAppointment}</Text>
+            </View>
+            <View>
+                <Text style={styles.label}>Symptoms:</Text>
                 <Text style={styles.text}>{item.symptoms}</Text>
             </View>
             <TouchableOpacity style={styles.buttonContainer} onPress={() => deleteFunction(item.id)}>
-                <Text style={styles.deleteButton}>Eliminar &times;</Text>
+                <Text style={styles.deleteButton}>Delete &times;</Text>
             </TouchableOpacity>
         </View>
     )
@@ -41,7 +53,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#14274e',
-        borderRadius: 10
+        borderRadius: 10,
+        backgroundColor: '#fff'
     },
     label: {
         fontSize: 20,
